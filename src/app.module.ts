@@ -8,6 +8,7 @@ import { ReviewModule } from './modules/review/review.module';
 import { AmenityModule } from './modules/amenity/amenity.module';
 import { BookingModule } from './modules/booking/booking.module';
 import { ListingModule } from './modules/listing/listing.module';
+import { PaymentModule } from './modules/payment/payment.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ListingModule } from './modules/listing/listing.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('DB_URL'),
+        dbName: configService.get<string>('DB_NAME'),
       }),
     }),
     UsersModule,
@@ -24,6 +26,7 @@ import { ListingModule } from './modules/listing/listing.module';
     BookingModule,
     AmenityModule,
     ReviewModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

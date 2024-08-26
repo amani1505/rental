@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AmenityService } from './amenity.service';
 import { CreateAmenityDto } from './dto/create-amenity.dto';
 import { UpdateAmenityDto } from './dto/update-amenity.dto';
 
 @Controller('amenity')
 export class AmenityController {
-  constructor(private readonly amenityService: AmenityService) {}
+  constructor(private readonly _amenityService: AmenityService) {}
 
   @Post()
   create(@Body() createAmenityDto: CreateAmenityDto) {
-    return this.amenityService.create(createAmenityDto);
+    return this._amenityService.create(createAmenityDto);
   }
 
   @Get()
   findAll() {
-    return this.amenityService.findAll();
+    return this._amenityService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.amenityService.findOne(+id);
+    return this._amenityService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAmenityDto: UpdateAmenityDto) {
-    return this.amenityService.update(+id, updateAmenityDto);
+    return this._amenityService.update(id, updateAmenityDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.amenityService.remove(+id);
+    return this._amenityService.remove(id);
   }
 }
