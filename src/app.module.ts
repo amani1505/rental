@@ -3,12 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './modules/users/users.module';
-import { ReviewModule } from './modules/review/review.module';
-import { AmenityModule } from './modules/amenity/amenity.module';
-import { BookingModule } from './modules/booking/booking.module';
-import { ListingModule } from './modules/listing/listing.module';
-import { PaymentModule } from './modules/payment/payment.module';
+import { UsersModule } from '@modules/users/users.module';
+import { ReviewModule } from '@modules/review/review.module';
+import { AmenityModule } from '@modules/amenity/amenity.module';
+import { BookingModule } from '@modules/booking/booking.module';
+import { ListingModule } from '@modules/listing/listing.module';
+import { PaymentModule } from '@modules/payment/payment.module';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PaymentModule } from './modules/payment/payment.module';
     AmenityModule,
     ReviewModule,
     PaymentModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
