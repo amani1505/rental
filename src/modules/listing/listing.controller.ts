@@ -15,7 +15,9 @@ import { UpdateListingDto } from './dto/update-listing.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Listing')
 @Controller('listings')
 export class ListingController {
   constructor(private readonly _listingService: ListingService) {}

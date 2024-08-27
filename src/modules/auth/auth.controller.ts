@@ -14,7 +14,10 @@ import { LocalAuthGuard } from './guard/local-auth.guard';
 import { RefreshJwtAuthGuard } from './guard/refresh-auth.guard';
 import { UsersService } from '@modules/users/users.service';
 import { CreateUserDto } from '@modules/users/dto/create-user.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginDto } from '@modules/users/dto/login.dto';
 
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -24,8 +27,13 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('signin')
-  async login(@Request() req: any) {
-    return await this._authService.login(req.body);
+  @ApiResponse({
+    status: 201,
+    description: 'you have succesfull login.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async login(@Body() createUserDto: LoginDto) {
+    return await this._authService.login(createUserDto);
   }
 
   @Post('signup')

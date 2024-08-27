@@ -10,7 +10,9 @@ import {
 import { AmenityService } from './amenity.service';
 import { CreateAmenityDto } from './dto/create-amenity.dto';
 import { UpdateAmenityDto } from './dto/update-amenity.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Amenity')
 @Controller('amenity')
 export class AmenityController {
   constructor(private readonly _amenityService: AmenityService) {}

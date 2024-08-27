@@ -17,17 +17,15 @@ export class AuthService {
 
   async validateUser(email: string, password: string) {
     const user: UserDocument = await this._userService.findOneByEmail(email);
-    console.log('USERS', user);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
-      console.log('Results', result);
-      console.log('Password', password);
+
       return result;
     }
     return null;
   }
-  async login(user: UserDocument) {
+  async login(user: LoginDto) {
     const payload = {
       email: user.email,
       //   sub: {
@@ -36,8 +34,6 @@ export class AuthService {
     };
 
     const { password, ...userWithoutPassword } = user;
-
-    console.log('user login', userWithoutPassword);
     return {
       ...userWithoutPassword,
       accessToken: this._jwtService.sign(payload),
