@@ -22,7 +22,7 @@ export class AuthController {
     private _userService: UsersService,
   ) {}
 
-  //   @UseGuards(LocalAuthGuard)
+  @UseGuards(LocalAuthGuard)
   @Post('signin')
   async login(@Request() req: any) {
     return await this._authService.login(req.body);

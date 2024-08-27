@@ -46,39 +46,79 @@ export class UsersService {
       );
     }
   }
-  async findAll() {
-    return await this._userModel.find().populate('institute').exec();
+  async findAll(): Promise<Partial<User>[]> {
+    try {
+      const users = await this._userModel.find().select('-password').exec();
+      return users.map((user) => user.toObject());
+    } catch (error) {
+      throw new HttpException(
+        `Failed to retrieve users: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async findOne(id: string): Promise<User> {
-    const review = await this._userModel.findById(id).exec();
-    if (!review) {
-      throw new NotFoundException('user not found');
+    try {
+      const user = await this._userModel
+        .findById(id)
+        .select('-password')
+        .exec();
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return user.toObject();
+    } catch (error) {
+      throw new HttpException(
+        `Failed to retrieve user: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-    return review;
   }
 
-  async update(id: string, updateuserDto: UpdateUserDto): Promise<User> {
-    const review = await this._userModel
-      .findByIdAndUpdate(id, updateuserDto, { new: true })
-      .exec();
-    if (!review) {
-      throw new NotFoundException('user not found');
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    try {
+      const user = await this._userModel
+        .findByIdAndUpdate(id, updateUserDto, { new: true })
+        .select('-password')
+        .exec();
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return user.toObject();
+    } catch (error) {
+      throw new HttpException(
+        `Failed to update user: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-    return review;
   }
 
   async remove(id: string): Promise<void> {
-    const result = await this._userModel.findByIdAndDelete(id).exec();
-    if (!result) {
-      throw new NotFoundException('user not found');
+    try {
+      const result = await this._userModel.findByIdAndDelete(id).exec();
+      if (!result) {
+        throw new NotFoundException('User not found');
+      }
+    } catch (error) {
+      throw new HttpException(
+        `Failed to delete user: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
-  async findOneByEmail(email: string): Promise<User> {
-    const user = await this._userModel.findOne({ email }).exec();
-    if (!user) {
-      throw new NotFoundException(`User with email ${email} not found`);
+  async findOneByEmail(email: string): Promise<UserDocument | null> {
+    try {
+      const user = await this._userModel.findOne({ email }).exec();
+      if (!user) {
+        throw new NotFoundException(`User with email ${email} not found`);
+      }
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        `Failed to retrieve user by email: ${error.message}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-    return user;
   }
 }

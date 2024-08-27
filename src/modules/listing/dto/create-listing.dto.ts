@@ -4,6 +4,7 @@ export class CreateListingDto {
   address: string;
   city: string;
   country: string;
+  pricePerNight: number;
   amenities: Array<string>;
   images: Array<string>;
 }
