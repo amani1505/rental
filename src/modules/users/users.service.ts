@@ -21,17 +21,15 @@ export class UsersService {
     try {
       const { email } = createUserDto;
 
-      // Check if the email is already registered
       const existingUser = await this._userModel.findOne({ email });
       if (existingUser) {
         throw new NotFoundException('Email already registered');
       }
 
-      // Hash the password
       const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
       createUserDto.password = hashedPassword;
 
-      // Create and save the user
+    
       const createdUser = new this._userModel(createUserDto);
       const savedUser = await createdUser.save();
 
