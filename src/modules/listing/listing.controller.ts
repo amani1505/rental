@@ -22,7 +22,7 @@ export class ListingController {
 
   @Post()
   @UseInterceptors(
-    FilesInterceptor('listing', 2, {
+    FilesInterceptor('listing', 10, {
       storage: diskStorage({
         destination: './uploads/listings',
         filename: (req: any, file: any, callback: any) => {
